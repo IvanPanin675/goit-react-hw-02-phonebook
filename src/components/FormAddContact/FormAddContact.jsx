@@ -2,10 +2,33 @@ import PropTypes from 'prop-types';
 import styles from './Form.module.css';
 
 const FormAddContact = ({ onHandleSubmit }) => {
+  const values = {
+    name: '',
+    number: '',
+  };
+
+  const onChanges = e => {
+    values[e.target.name] = e.target.value;
+    return;
+  };
+
+  const cleanValues = e => {
+    e.target.elements.name.value = '';
+    e.target.elements.number.value = '';
+  };
+
   return (
-    <form className={styles.form} onSubmit={onHandleSubmit}>
+    <form
+      className={styles.form}
+      onSubmit={e => {
+        e.preventDefault();
+        onHandleSubmit(values);
+        cleanValues(e);
+      }}
+    >
       <label htmlFor="">Name</label>
       <input
+        onChange={onChanges}
         type="text"
         name="name"
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -14,6 +37,7 @@ const FormAddContact = ({ onHandleSubmit }) => {
       />
       <label htmlFor="">Number</label>
       <input
+        onChange={onChanges}
         type="tel"
         name="number"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
