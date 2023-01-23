@@ -49,9 +49,9 @@ export class App extends Component {
       contacts: prevState.contacts.filter(contact => contact.id !== deleteId),
     }));
   };
-
   render() {
     const { filter, contacts } = this.state;
+    console.log(this.getVisibleContacts());
     return (
       <>
         <h1>Phonebook</h1>
@@ -60,10 +60,12 @@ export class App extends Component {
           <>
             <h2>Contacts</h2>
             <FilterSearch onSearchName={this.onSearchName} value={filter} />
-            <ContactsList
-              getVisibleContacts={this.getVisibleContacts()}
-              onDelete={this.onDeleting}
-            />
+            {this.getVisibleContacts().length === 0 || (
+              <ContactsList
+                getVisibleContacts={this.getVisibleContacts()}
+                onDelete={this.onDeleting}
+              />
+            )}
           </>
         )}
       </>
